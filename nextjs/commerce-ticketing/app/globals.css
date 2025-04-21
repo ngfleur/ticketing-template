@@ -108,3 +108,8 @@ input::-webkit-inner-spin-button {
 input[type='number'] {
   -moz-appearance: textfield;
 }
+
+/* app/globals.css */
+.btn-main {
+  @apply bg-purple-600 text-white px-6 py-3 hover:bg-purple-700 transition-colors duration-300;
+}

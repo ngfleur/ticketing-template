@@ -1,39 +1,61 @@
-import { schedule } from '@wix/events';
-import { formatDuration, formatHours } from '@app/utils/date-formatter';
+// Schedule.tsx
+import { Evenement } from '@app/types/evenement';
+import { format } from 'date-fns';
+import { fr } from 'date-fns/locale';
+
+interface ScheduleItem {
+  id: number;
+  titre: string;
+  debut: Date;
+  fin: Date;
+  salle: string;
+}
 
 export const Schedule = ({
-  items,
-  slug,
+  evenement,
   isFull = false,
 }: {
-  items: schedule.ScheduleItem[];
-  slug: string;
+  evenement: Evenement;
   isFull?: boolean;
 }) => {
+  // Simulation des items du programme
+  const items: ScheduleItem[] = [
+    {
+      id: 1,
+      titre: "Ouverture des portes",
+      debut: evenement.dateDebut, // Maintenant compatible car les deux sont de type Date
+      fin: evenement.dateFin,
+      salle: evenement.lieu
+    }
+  ];
+
   const itemsWithDuration = items.map((item) => {
-    const { start, end } = item.timeSlot!;
-    const dateStart = new Date(start!);
-    const dateEnd = new Date(end!);
-    let msDifference = Number(dateEnd) - Number(dateStart);
-    let minutes = Math.floor(msDifference / 1000 / 60);
-    let hours = Math.floor(minutes / 60);
+    const dateStart = item.debut; // Plus besoin de new Date()
+    const dateEnd = item.fin;
+    const msDifference = Number(dateEnd) - Number(dateStart);
+    const minutes = Math.floor(msDifference / 1000 / 60);
+    const hours = Math.floor(minutes / 60);
     return { ...item, duration: { diffHrs: hours, diffMins: minutes } };
   });
+
+  const formatDuration = ({ diffHrs, diffMins }: { diffHrs: number; diffMins: number }) => {
+    if (diffHrs > 0) {
+      return `${diffHrs}h${diffMins % 60 > 0 ? ` ${diffMins % 60}min` : ''}`;
+    }
+    return `${diffMins}min`;
+  };
+
   return (
     <div className="text-sm">
       {itemsWithDuration.slice(0, isFull ? 100 : 2).map((item) => (
         <div
           className="flex gap-3 sm:gap-8 items-left sm:items-center border-b py-5 sm:py-8 border-black flex-col sm:flex-row"
-          key={item._id}
+          key={item.id}
         >
           <div className="basis-1/4">
-            <span className="block">{`${formatHours(
-              new Date(item.timeSlot?.start!),
-              item.timeSlot!.timeZoneId!
-            )} - ${formatHours(
-              new Date(item.timeSlot?.end!),
-              item.timeSlot!.timeZoneId!
-            )}`}</span>
+            <span className="block">
+              {`${format(new Date(item.debut), 'HH:mm')} - ${format(new Date(item.fin), 'HH:mm')}`}
+            </span>
             <span className="text-gray-400 text-sm">
               {formatDuration({
                 diffHrs: item.duration.diffHrs,
@@ -42,7 +64,7 @@ export const Schedule = ({
             </span>
           </div>
           <div>
-            <span className="block mb-2">{item.name}</span>
+            <span className="block mb-2">{item.titre}</span>
             <div className="text-xs flex gap-1 items-center">
               <svg
                 className="h-5"
@@ -64,7 +86,7 @@ export const Schedule = ({
                   d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
                 ></path>
               </svg>
-              {item.stageName}
+              {item.salle}
             </div>
           </div>
         </div>
@@ -72,13 +94,13 @@ export const Schedule = ({
       {items.length > 2 && !isFull && (
         <div className="flex flex-col-reverse sm:flex-row justify-end gap-4 items-center py-4">
           <span className="text-xs">
-            {items.length - 2} more items available
+            {items.length - 2} éléments supplémentaires
           </span>
           <a
-            href={`/schedule/${slug}`}
-            className="text-purple-500 border py-2 px-4 border-purple-500 w-full sm:w-auto text-center"
+            href={`/programme/${evenement.id}`}
+            className="text-blue-600 border py-2 px-4 border-blue-600 w-full sm:w-auto text-center"
           >
-            See All
+            Voir tout
           </a>
         </div>
       )}

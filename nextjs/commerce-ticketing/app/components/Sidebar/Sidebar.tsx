@@ -5,7 +5,10 @@ import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 interface SidebarProps {
   children: any;
   onClose: () => void;
+  title?: string;
+  width?: 'sm' | 'lg';
 }
+
 
 export const Sidebar: React.FC<SidebarProps> = ({ children, onClose }) => {
   const sidebarRef = useRef() as React.MutableRefObject<HTMLDivElement>;

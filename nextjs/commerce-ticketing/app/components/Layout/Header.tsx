@@ -1,31 +1,24 @@
 import { CartBag } from '@app/components/CartBag/CartBag';
-import { NavBar } from './NavBar/NavBar';
+import { NavBar } from 'app/components/Layout/NavBar/NavBar';
 import { Login } from '@app/components/Login/Login';
 import testIds from '@app/utils/test-ids';
 
 const Header = () => (
-  <>
-    <header
-      className="h-header z-40 w-full"
-      data-testid={testIds.LAYOUT.HEADER}
-    >
-      <div className="flex px-6 sm:px-14 h-header items-center gap-4 sm:gap-8">
-        <h2 className="flex-1">
-          <a href="/">TALI$A KIDD</a>
+  <header className="fixed top-0 left-0 right-0 bg-white z-40 shadow-sm">
+    <div className="max-w-7xl mx-auto px-4">
+      <div className="flex items-center justify-between h-16">
+        <h2 className="text-xl font-bold">
+          <a href="/">EV$NTIX</a>
         </h2>
-        <div>
-          <Login />
-        </div>
 
-        <div>
+        <div className="flex items-center space-x-6">
+          <Login />
           <CartBag />
-        </div>
-        <div>
           <NavBar />
         </div>
       </div>
-    </header>
-  </>
+    </div>
+  </header>
 );
 
 export default Header;

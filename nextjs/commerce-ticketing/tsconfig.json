@@ -5,7 +5,10 @@
       "@statics/*": ["public/*"],
       "@app/*": ["app/*"],
       "@tests/*": ["tests/*"],
-      "@api/*": ["src/pages/api/*"]
+      "@api/*": ["src/pages/api/*"],
+      "@types/*": ["app/types/*"],
+      "@components/*": ["app/components/*"]
+
     },
     "target": "es2015",
     "lib": [
