@@ -7,21 +7,13 @@ export const Login = () => {
   const { openModal, isModalOpen, modalView, closeModal } = useUI();
   const handleClick = () => {
     console.log('Opening modal...'); // Pour déboguer
-    alert('Modal is open: ' + isModalOpen);
     openModal('LOGIN');
   };
-
-  useEffect(() => {
-    console.info('Modal is open: ', isModalOpen);
-    console.info('Modal view: ', modalView);
-  }, [modalView, isModalOpen]);
 
   return (
     <div>
       <button
-        onClick={() => {
-          console.log('testssss');
-        }}
+        onClick={handleClick}
         className="px-4 py-2 text-black hover:text-gray-600 transition-colors"
       >
         Connexion

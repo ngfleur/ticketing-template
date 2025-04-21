@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 const AUTH_COOKIE = 'auth-token';
-const PUBLIC_PATHS = ['/login', '/register', '/', '/sandbox'];
+const PUBLIC_PATHS = ['/', '/sandbox'];
 
 export async function middleware(request: NextRequest) {
   const requestHeaders = new Headers(request.headers);
@@ -17,7 +17,8 @@ export async function middleware(request: NextRequest) {
 
   if (!authToken) {
     // Redirige vers la page de connexion si non authentifié
-    return NextResponse.redirect(new URL('/login', request.url));
+    console.log("Pas d'authentification");
+    //return NextResponse.redirect(new URL('/login', request.url));
   }
 
   try {

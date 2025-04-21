@@ -9,8 +9,10 @@ interface LayoutProps {
   children: ReactNode;
 }
 
-export default function Layout({ children }: LayoutProps) {
+export default function RootLayout({ children }: LayoutProps) {
   return (
+    <html>
+    <body>
     <UIProvider>
       <div className="min-h-screen flex flex-col pt-16">
         <Header />
@@ -20,5 +22,7 @@ export default function Layout({ children }: LayoutProps) {
         <Toast />
       </div>
     </UIProvider>
+    </body>
+    </html>
   );
 }
